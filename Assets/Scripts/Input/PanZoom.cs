@@ -35,8 +35,8 @@ public class PanZoom : MonoBehaviour {
 	}
 
     void zoom(float increment){
-        MapImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MapImageRect.rect.width - 64*increment);
-        MapImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MapImageRect.rect.height - 320*increment);
+        MapImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MapImageRect.rect.width + 64*increment);
+        MapImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MapImageRect.rect.height + 320*increment);
     }
 }
 
