@@ -26,13 +26,9 @@ public class PinchDetection : MonoBehaviour
 
     private void Start()
     {
-        _controls.Touch.SecondaryTouchContact.started += _ => ZoomStart();
-        _controls.Touch.SecondaryTouchContact.canceled += _ => ZoomEnd();
-        
-        if(_controls.Touch.PrimaryFingerPosition==Vector2.zero){
-            ZoomEnd();
-        }
-
+        _controls.Touch.SecondaryFingerContact.started += _ => ZoomStart();
+        _controls.Touch.SecondaryFingerContact.canceled += _ => ZoomEnd();
+        _controls.Touch.PrimaryFingerContact.canceled += _ => ZoomEnd();
     }
     
     private void ZoomStart()
@@ -47,6 +43,7 @@ public class PinchDetection : MonoBehaviour
 
     IEnumerator ZoomDetection()
     {
+        float timer = 0f;
         float previousDistance = 0f;
 
         while (true)
@@ -61,15 +58,17 @@ public class PinchDetection : MonoBehaviour
             if (distance > previousDistance)
             {
                 _mapImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + _zoomModifier * ratio);
-                _mapImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, height + _zoomModifier);
+                _mapImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height + _zoomModifier);
             }
             else if (distance < previousDistance)
             {
                 _mapImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width - _zoomModifier * ratio);
-                _mapImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, height - _zoomModifier);
+                _mapImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height - _zoomModifier);
             }
 
             previousDistance = distance;
+
+            timer += Time.deltaTime;
             yield return null;
         }
     }

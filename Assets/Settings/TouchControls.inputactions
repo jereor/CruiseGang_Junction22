@@ -1,5 +1,5 @@
 {
-    "name": "UserControls",
+    "name": "TouchControls",
     "maps": [
         {
             "name": "Touch",
@@ -25,6 +25,14 @@
                     "name": "Secondary Finger Contact",
                     "type": "Button",
                     "id": "5227e7e3-68f0-41e5-b01d-a50fc86a4db2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Primary Finger Contact",
+                    "type": "Button",
+                    "id": "be971135-cd0b-4a3b-94e3-0c0fffe3871f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
@@ -61,6 +69,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Secondary Finger Contact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b90bd88b-4ba5-400d-8ddf-762b42a4758e",
+                    "path": "<Touchscreen>/touch0/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary Finger Contact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
