@@ -145,7 +145,7 @@ public class @TouchControls : IInputActionCollection, IDisposable
         public TouchActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @PrimaryFingerPosition => m_Wrapper.m_Touch_PrimaryFingerPosition;
         public InputAction @SecondaryFingerPosition => m_Wrapper.m_Touch_SecondaryFingerPosition;
-        public InputAction SecondaryTouchContact => m_Wrapper.m_Touch_SecondaryFingerContact;
+        public InputAction @SecondaryFingerContact => m_Wrapper.m_Touch_SecondaryFingerContact;
         public InputActionMap Get() { return m_Wrapper.m_Touch; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -161,9 +161,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 @SecondaryFingerPosition.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerPosition;
                 @SecondaryFingerPosition.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerPosition;
                 @SecondaryFingerPosition.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerPosition;
-                SecondaryTouchContact.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerContact;
-                SecondaryTouchContact.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerContact;
-                SecondaryTouchContact.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerContact;
+                @SecondaryFingerContact.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerContact;
+                @SecondaryFingerContact.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerContact;
+                @SecondaryFingerContact.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryFingerContact;
             }
             m_Wrapper.m_TouchActionsCallbackInterface = instance;
             if (instance != null)
@@ -174,9 +174,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 @SecondaryFingerPosition.started += instance.OnSecondaryFingerPosition;
                 @SecondaryFingerPosition.performed += instance.OnSecondaryFingerPosition;
                 @SecondaryFingerPosition.canceled += instance.OnSecondaryFingerPosition;
-                SecondaryTouchContact.started += instance.OnSecondaryFingerContact;
-                SecondaryTouchContact.performed += instance.OnSecondaryFingerContact;
-                SecondaryTouchContact.canceled += instance.OnSecondaryFingerContact;
+                @SecondaryFingerContact.started += instance.OnSecondaryFingerContact;
+                @SecondaryFingerContact.performed += instance.OnSecondaryFingerContact;
+                @SecondaryFingerContact.canceled += instance.OnSecondaryFingerContact;
             }
         }
     }

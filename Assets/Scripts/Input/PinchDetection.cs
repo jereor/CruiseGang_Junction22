@@ -28,6 +28,11 @@ public class PinchDetection : MonoBehaviour
     {
         _controls.Touch.SecondaryTouchContact.started += _ => ZoomStart();
         _controls.Touch.SecondaryTouchContact.canceled += _ => ZoomEnd();
+        
+        if(_controls.Touch.PrimaryFingerPosition==Vector2.zero){
+            ZoomEnd();
+        }
+
     }
     
     private void ZoomStart()
