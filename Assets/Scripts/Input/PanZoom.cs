@@ -1,20 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PanZoom : MonoBehaviour {
-    Vector3 touchStart;
-    public float zoomOutMin = 1;
-    public float zoomOutMax = 400;
+public class PanZoom : MonoBehaviour
+{
+    private Vector3 _touchStart;
 
-    public RectTransform MapImageRect;
-	
-	// Update is called once per frame
-	void Update () {
-//        if(Input.GetMouseButtonDown(0)){
- //           touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
- //       }
-        if(Input.touchCount == 2){
+    public RectTransform UIRect;
+    public RectTransform[] ButtonRectList;
+
+    private void Update()
+    {
+        if (Input.touchCount == 2)
+        {
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
@@ -26,17 +22,40 @@ public class PanZoom : MonoBehaviour {
 
             float difference = currentMagnitude - prevMagnitude;
 
-            zoom(difference * 0.01f);
-        }else if(Input.GetMouseButton(0)){
-            Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Zoom(difference * 0.01f);
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            Vector3 direction = _touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Camera.main.transform.position += direction;
         }
-        zoom(Input.GetAxis("Mouse ScrollWheel"));
-	}
 
-    void zoom(float increment){
-        MapImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MapImageRect.rect.width + 64*increment);
-        MapImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MapImageRect.rect.height + 320*increment);
+        Zoom(Input.GetAxis("Mouse ScrollWheel"));
+    }
+
+    private void Zoom(float increment)
+    {
+        Rect uiRect = UIRect.rect;
+        float uiRectWidth = uiRect.width;
+        float uiRectHeight = uiRect.height;
+        UIRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiRectWidth + 64 * increment);
+        UIRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, uiRectHeight + 320 * increment);
+        
+        foreach (RectTransform rectTransform in ButtonRectList)
+        {
+            Rect buttonRect = rectTransform.rect;
+            float widthRatio = buttonRect.width / uiRectWidth;
+            float heightRatio = buttonRect.height / uiRectHeight;
+            float deltaWidth = 64 * widthRatio * increment;
+            float deltaHeight = 320 * heightRatio * increment;
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonRect.width + deltaWidth);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonRect.height + deltaHeight);
+
+            Vector2 anchoredPosition = rectTransform.anchoredPosition;
+            Vector2 newPosition = new Vector2(anchoredPosition.x, anchoredPosition.y + deltaHeight * 5.5f);
+            anchoredPosition = newPosition;
+            rectTransform.anchoredPosition = anchoredPosition;
+        }
+        
     }
 }
-
