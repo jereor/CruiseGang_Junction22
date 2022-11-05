@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PanZoom : MonoBehaviour
 {
-    private Vector3 _touchStart;
+    private const int MAGIC_WIDTH_NUMBER = 64;
+    private const int MAGIC_HEIGHT_NUMBER = 320;
 
     public RectTransform UIRect;
     public RectTransform[] ButtonRectList;
@@ -24,11 +25,6 @@ public class PanZoom : MonoBehaviour
 
             Zoom(difference * 0.01f);
         }
-        else if (Input.GetMouseButton(0))
-        {
-            Vector3 direction = _touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Camera.main.transform.position += direction;
-        }
 
         Zoom(Input.GetAxis("Mouse ScrollWheel"));
     }
@@ -38,21 +34,22 @@ public class PanZoom : MonoBehaviour
         Rect uiRect = UIRect.rect;
         float uiRectWidth = uiRect.width;
         float uiRectHeight = uiRect.height;
-        UIRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiRectWidth + 64 * increment);
-        UIRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, uiRectHeight + 320 * increment);
+        UIRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiRectWidth + MAGIC_WIDTH_NUMBER * increment);
+        UIRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, uiRectHeight + MAGIC_HEIGHT_NUMBER * increment);
         
         foreach (RectTransform rectTransform in ButtonRectList)
         {
             Rect buttonRect = rectTransform.rect;
             float widthRatio = buttonRect.width / uiRectWidth;
             float heightRatio = buttonRect.height / uiRectHeight;
-            float deltaWidth = 64 * widthRatio * increment;
-            float deltaHeight = 320 * heightRatio * increment;
+            float deltaWidth = MAGIC_WIDTH_NUMBER * widthRatio * increment;
+            float deltaHeight = MAGIC_HEIGHT_NUMBER * heightRatio * increment;
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonRect.width + deltaWidth);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonRect.height + deltaHeight);
 
             Vector2 anchoredPosition = rectTransform.anchoredPosition;
-            Vector2 newPosition = new Vector2(anchoredPosition.x, anchoredPosition.y + deltaHeight * 5.5f);
+            const float magicScaleNumber = 5.5f;
+            Vector2 newPosition = new Vector2(anchoredPosition.x, anchoredPosition.y + deltaHeight * magicScaleNumber);
             anchoredPosition = newPosition;
             rectTransform.anchoredPosition = anchoredPosition;
         }
